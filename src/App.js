@@ -15,7 +15,7 @@ const App = () => {
     return (
         <div className="App">
             <section class="bg-white dark:bg-gray-900">
-                
+                Puzzler Website!
             </section>
         </div>
     )

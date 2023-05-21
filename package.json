@@ -1,5 +1,5 @@
 {
-    "name": "aca-summer-school",
+    "name": "puzzler-website",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -25,8 +25,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "netlify": "react-scripts build && netlify deploy --prod",
-        "production": "react-scripts build && scp -i ~/.ssh/id_rsa -r build/* summerschool@www2.cse.iitk.ac.in:/home/summerschool/www/"
+        "deploy": "react-scripts build && netlify deploy --prod"
     },
     "eslintConfig": {
         "extends": [
