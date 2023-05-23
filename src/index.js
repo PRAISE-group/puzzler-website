@@ -1,46 +1,41 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React from 'react';
+import { useState, useEffect } from 'react';
 
-import ReactDOM from 'react-dom/client'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import ReactDOM from 'react-dom/client';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
-import FooterComponent from './components/FooterComponent'
-import NavbarComponent from './components/NavbarComponent'
+import './index.css';
+import App from './App';
 
-import './index.css'
-import App from './App'
+import PuzzlesPage from './pages/PuzzlesPage';
 
-import { Analytics, logEvent } from 'firebase/analytics'
-import { db, analytics } from './firebase/firebase.js'
+import { Analytics, logEvent } from 'firebase/analytics';
+import { db, analytics } from './firebase/firebase.js';
 
-import { createOvermind } from 'overmind'
-import { Provider } from 'overmind-react'
-import { config } from './overmind'
+import { createOvermind } from 'overmind';
+import { Provider } from 'overmind-react';
+import { config } from './overmind';
 
 export const overmind = createOvermind(config, {
     devtools: false,
-})
+});
 
 export default function Application() {
-
     return (
         <Router>
-            <NavbarComponent />
-            <div className="py-10"></div>
             <Routes>
                 <Route path="*" element={<App />} />
                 <Route path="/" element={<App />} />
-               
+                <Route path="/puzzles" element={<PuzzlesPage />} />
             </Routes>
-            <div className="py-10"></div>
-            <FooterComponent />
+            <div className="py-16"></div>
         </Router>
-    )
+    );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider value={overmind}>
         <Application />
     </Provider>
-)
+);
