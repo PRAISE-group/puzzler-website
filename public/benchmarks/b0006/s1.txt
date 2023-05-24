@@ -1,0 +1,7 @@
+circle 4,4,9.12,0
+plus 4,0,4,2
+rectangle 2,3,6,4,0
+rectangle 2,4,6,5,0
+circle 4,6,1,0
+rectangle 2,7,6,8,0
+circle 4,8,1,0

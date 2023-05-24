@@ -1,0 +1,3 @@
+triangle 6,6,2,8,2,4,1
+circle 7,1,2.5,1
+circle 7,1,1,0

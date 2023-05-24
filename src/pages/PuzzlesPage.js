@@ -25,12 +25,12 @@ const PuzzlesPage = () => {
                 </section>
                 <section className="bg-white dark:bg-gray-900 px-4 mx-auto max-w-screen-2xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <PuzzleComponent id="puzzle_872635" name="b001" number="1" />
-                        <PuzzleComponent id="puzzle_341243" name="b002" number="2" />
-                        <PuzzleComponent id="puzzle_235312" name="b003" number="3" />
-                        <PuzzleComponent id="puzzle_534523" name="b004" number="4" />
-                        <PuzzleComponent id="puzzle_884567" name="b005" number="5" />
-                        <PuzzleComponent id="puzzle_774563" name="b006" number="6" />
+                        <PuzzleComponent id="puzzle_872635" name="b0001" number="1" />
+                        <PuzzleComponent id="puzzle_341243" name="b0041" number="2" />
+                        <PuzzleComponent id="puzzle_235312" name="b0003" number="3" />
+                        <PuzzleComponent id="puzzle_534523" name="b0004" number="4" />
+                        <PuzzleComponent id="puzzle_884567" name="b0005" number="5" />
+                        <PuzzleComponent id="puzzle_774563" name="b0006" number="6" />
                     </div>
                 </section>
             </div>

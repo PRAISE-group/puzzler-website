@@ -9,9 +9,10 @@ import s2image from '../assets/s2.png';
 import o4image from '../assets/o4.png';
 
 const PuzzleQuestionImageComponent = (props) => {
+    const fullPath = `/benchmarks/${props.folder}/${props.path}.png`;
     return (
         <div className="bg-blue-200 hover:bg-blue-300 hover:shadow-lg items-center text-center shadow-xl mb-6 shadow-blue-200 p-1 rounded-xl border-2 border-blue-500">
-            <img src={s2image} className="w-40 h-40 rounded-xl items-center" />
+            <img src={fullPath} className="w-40 h-40 rounded-xl items-center" />
             <p className="p-2 text-xl font-semibold tracking-tight">{props.seqName}</p>
         </div>
     );
@@ -19,6 +20,8 @@ const PuzzleQuestionImageComponent = (props) => {
 
 const PuzzleOptionsImageComponent = (props) => {
     const optionsId = `data-${props.id}_${props.optionName}`;
+    const fullPath = `/benchmarks/${props.folder}/${props.path}.PNG`;
+
     return (
         <div>
             <input
@@ -38,7 +41,7 @@ const PuzzleOptionsImageComponent = (props) => {
                     peer-checked:text-red-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
                 <div>
-                    <img src={o4image} className="w-40 h-40 rounded-xl items-center" />
+                    <img src={fullPath} className="w-40 h-40 rounded-xl items-center" />
                     <span className="mt-2 mb-2 font-semibold text-xl">{props.optionName}</span>
                 </div>
             </label>
@@ -68,10 +71,26 @@ const PuzzleComponent = (props) => {
             <div class="flex items-center justify-between">
                 <div className="mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
-                        <PuzzleQuestionImageComponent seqName="Seq-1" />
-                        <PuzzleQuestionImageComponent seqName="Seq-2" />
-                        <PuzzleQuestionImageComponent seqName="Seq-3" />
-                        <PuzzleQuestionImageComponent seqName="Seq-4" />
+                        <PuzzleQuestionImageComponent
+                            seqName="Seq-1"
+                            folder={props.name}
+                            path="s1"
+                        />
+                        <PuzzleQuestionImageComponent
+                            seqName="Seq-2"
+                            folder={props.name}
+                            path="s2"
+                        />
+                        <PuzzleQuestionImageComponent
+                            seqName="Seq-3"
+                            folder={props.name}
+                            path="s3"
+                        />
+                        <PuzzleQuestionImageComponent
+                            seqName="Seq-4"
+                            folder={props.name}
+                            path="s4"
+                        />
                     </div>
                 </div>
             </div>
@@ -143,10 +162,30 @@ const PuzzleComponent = (props) => {
                 <div class="flex items-center justify-between">
                     <div className="mx-auto">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 justify-center">
-                            <PuzzleOptionsImageComponent optionName="Option-1" id={props.id} />
-                            <PuzzleOptionsImageComponent optionName="Option-2" id={props.id} />
-                            <PuzzleOptionsImageComponent optionName="Option-3" id={props.id} />
-                            <PuzzleOptionsImageComponent optionName="Option-4" id={props.id} />
+                            <PuzzleOptionsImageComponent
+                                optionName="Option-1"
+                                id={props.id}
+                                folder={props.name}
+                                path="o1"
+                            />
+                            <PuzzleOptionsImageComponent
+                                optionName="Option-2"
+                                id={props.id}
+                                folder={props.name}
+                                path="o2"
+                            />
+                            <PuzzleOptionsImageComponent
+                                optionName="Option-3"
+                                id={props.id}
+                                folder={props.name}
+                                path="o3"
+                            />
+                            <PuzzleOptionsImageComponent
+                                optionName="Option-4"
+                                id={props.id}
+                                folder={props.name}
+                                path="o4"
+                            />
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,7 @@
+square 0,0,9,9,0
+square 2,2,6,6,0
+circle 7,1,1,1
+circle 5,5,1,0
+line 6,2,2,6
+line 6,6,8,8
+line 0,0,2,2
