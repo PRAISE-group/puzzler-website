@@ -30,7 +30,7 @@ const PuzzleOptionsImageComponent = (props) => {
                 value=""
                 class="hidden peer"
                 required=""
-                onClick={(e) => alert(`${optionsId}`)}
+                onClick={(e) => props.setOptionName(`${props.optionName}`)}
             />
             <label
                 for={optionsId}
@@ -49,7 +49,76 @@ const PuzzleOptionsImageComponent = (props) => {
     );
 };
 
+const StartFragment = (props) => {
+    return (
+        <>
+            {' '}
+            {!props.flag && (
+                <svg
+                    aria-hidden="true"
+                    class="w-7 h-7 text-gray-300 hover:text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={(e) => {
+                        props.setRating(props.rating);
+                        props.allCallbacks.map((x) => x(false));
+                        props.callback(true);
+                        props.restCallbacks.map((x) => x(true));
+                    }}
+                >
+                    <title>{props.name}</title>
+                    <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 
+                        00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 
+                        3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 
+                        2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                    ></path>
+                </svg>
+            )}
+            {props.flag && (
+                <svg
+                    aria-hidden="true"
+                    class="w-7 h-7 text-yellow-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={(e) => {
+                        props.setRating(props.rating);
+                        props.allCallbacks.map((x) => x(false));
+                        props.callback(true);
+                        props.restCallbacks.map((x) => x(true));
+                    }}
+                >
+                    <title>{props.name}</title>
+                    <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 
+                        00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 
+                        3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 
+                        2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                    ></path>
+                </svg>
+            )}
+        </>
+    );
+};
 const PuzzleComponent = (props) => {
+    const [starActive1, setStarActive1] = useState(false);
+    const [starActive2, setStarActive2] = useState(false);
+    const [starActive3, setStarActive3] = useState(false);
+    const [starActive4, setStarActive4] = useState(false);
+    const [starActive5, setStarActive5] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [optionName, setOptionName] = useState('');
+
+    const effects = useEffects();
+
+    async function handleSubmit(event, loginId, puzzleId, option, rating) {
+        event.preventDefault();
+        await effects.submitPuzzleRating(loginId, puzzleId, rating);
+        await effects.submitPuzzleOption(loginId, puzzleId, option);
+    }
+
     return (
         <div class="max-w-sceen-sm p-6 bg-white border-2 border-gray-200 rounded-2xl dark:bg-gray-800 dark:border-gray-700">
             <span class="text-xl font-semibold px-2.5 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-3 mb-3">
@@ -100,62 +169,92 @@ const PuzzleComponent = (props) => {
                     <a href="#">
                         <h5 class="text-xl mr-6 font-semibold tracking-tight text-gray-900 dark:text-white">
                             Choose the next sequence from the options below and give a rating for
-                            the puzzle
+                            the puzzle. (Choose only one option!)
                         </h5>
                     </a>
                     <div class="flex items-center">
-                        <svg
-                            aria-hidden="true"
-                            class="w-7 h-7 text-yellow-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <title>First star</title>
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                        </svg>
-                        <svg
-                            aria-hidden="true"
-                            class="w-7 h-7 text-yellow-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <title>Second star</title>
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                        </svg>
-                        <svg
-                            aria-hidden="true"
-                            class="w-7 h-7 text-yellow-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <title>Third star</title>
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                        </svg>
-                        <svg
-                            aria-hidden="true"
-                            class="w-7 h-7 text-yellow-400"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <title>Fourth star</title>
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                        </svg>
-                        <svg
-                            aria-hidden="true"
-                            class="w-7 h-7 text-gray-300 dark:text-gray-500"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <title>Fifth star</title>
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                        </svg>
+                        <StartFragment
+                            flag={starActive1}
+                            callback={setStarActive1}
+                            allCallbacks={[
+                                setStarActive1,
+                                setStarActive2,
+                                setStarActive3,
+                                setStarActive4,
+                                setStarActive5,
+                            ]}
+                            restCallbacks={[]}
+                            rating="1"
+                            setRating={setRating}
+                            name="Give 1 star!"
+                        />
+                        <StartFragment
+                            flag={starActive2}
+                            callback={setStarActive2}
+                            restCallbacks={[setStarActive1]}
+                            allCallbacks={[
+                                setStarActive1,
+                                setStarActive2,
+                                setStarActive3,
+                                setStarActive4,
+                                setStarActive5,
+                            ]}
+                            rating="2"
+                            setRating={setRating}
+                            name="Give 2 star!"
+                        />
+                        <StartFragment
+                            flag={starActive3}
+                            callback={setStarActive3}
+                            restCallbacks={[setStarActive1, setStarActive2]}
+                            allCallbacks={[
+                                setStarActive1,
+                                setStarActive2,
+                                setStarActive3,
+                                setStarActive4,
+                                setStarActive5,
+                            ]}
+                            rating="3"
+                            setRating={setRating}
+                            name="Give 3 star!"
+                        />
+                        <StartFragment
+                            flag={starActive4}
+                            callback={setStarActive4}
+                            restCallbacks={[setStarActive1, setStarActive2, setStarActive3]}
+                            allCallbacks={[
+                                setStarActive1,
+                                setStarActive2,
+                                setStarActive3,
+                                setStarActive4,
+                                setStarActive5,
+                            ]}
+                            rating="4"
+                            setRating={setRating}
+                            name="Give 4 star!"
+                        />
+                        <StartFragment
+                            flag={starActive5}
+                            callback={setStarActive5}
+                            allCallbacks={[
+                                setStarActive1,
+                                setStarActive2,
+                                setStarActive3,
+                                setStarActive4,
+                                setStarActive5,
+                            ]}
+                            restCallbacks={[
+                                setStarActive1,
+                                setStarActive2,
+                                setStarActive3,
+                                setStarActive4,
+                            ]}
+                            rating="5"
+                            setRating={setRating}
+                            name="Give 5 star!"
+                        />
                         <span class="bg-blue-100 text-blue-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
-                            4 out of 5
+                            {rating} out of 5
                         </span>
                     </div>
                 </div>
@@ -166,23 +265,27 @@ const PuzzleComponent = (props) => {
                                 optionName="Option-1"
                                 id={props.id}
                                 folder={props.name}
+                                setOptionName={setOptionName}
                                 path="o1"
                             />
                             <PuzzleOptionsImageComponent
                                 optionName="Option-2"
                                 id={props.id}
+                                setOptionName={setOptionName}
                                 folder={props.name}
                                 path="o2"
                             />
                             <PuzzleOptionsImageComponent
                                 optionName="Option-3"
                                 id={props.id}
+                                setOptionName={setOptionName}
                                 folder={props.name}
                                 path="o3"
                             />
                             <PuzzleOptionsImageComponent
                                 optionName="Option-4"
                                 id={props.id}
+                                setOptionName={setOptionName}
                                 folder={props.name}
                                 path="o4"
                             />
@@ -193,7 +296,7 @@ const PuzzleComponent = (props) => {
             <div className="flex items-center justify-between">
                 <a
                     onClick={(e) => {
-                        alert('Option Submitted!');
+                        handleSubmit(e, 'pz34564', props.name, optionName, rating);
                     }}
                     class="text-white bg-blue-700 mx-auto hover:bg-blue-800 
                     focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer

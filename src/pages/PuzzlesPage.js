@@ -19,7 +19,7 @@ const PuzzlesPage = () => {
                             Welcome to puzzle solving! We have assigned a set of puzzles for you to
                             solve. Please choose an option against each of the puzzles you solve. We
                             request you to solve each puzzle assigned to you and rate it on a scale
-                            of 0 to 5, (0 being too easy and 5 being too difficult).
+                            of 1 to 5, (1 being too easy and 5 being too difficult).
                         </p>
                     </div>
                 </section>

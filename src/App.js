@@ -30,7 +30,7 @@ const App = () => {
                     </h1>
                     <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
                         Please login below with your unique id and solve the puzzles shown. Remember
-                        to rate the puzzles (on a scale from 0 to 5).
+                        to rate the puzzles (on a scale from 1 to 5).
                     </p>
                 </div>
             </section>
