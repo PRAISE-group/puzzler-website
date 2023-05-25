@@ -27,10 +27,16 @@ const PuzzleOptionsImageComponent = (props) => {
             <input
                 type="checkbox"
                 id={optionsId}
+                checked={props.flag}
                 class="hidden peer"
                 onClick={(e) => {
-                    if (e.target.checked) props.setOptionName(`${props.optionName}`);
-                    else props.setOptionName('');
+                    if (e.target.checked) {
+                        props.setOptionName(`${props.optionName}`);
+                        props.own(true);
+                        props.callbacks.map((x) => x(false));
+                    } else {
+                        props.setOptionName(`${props.optionName}`);
+                    }
                 }}
             />
             <label
@@ -50,7 +56,7 @@ const PuzzleOptionsImageComponent = (props) => {
     );
 };
 
-const StartFragment = (props) => {
+const StarFragment = (props) => {
     return (
         <>
             {' '}
@@ -109,6 +115,12 @@ const PuzzleComponent = (props) => {
     const [starActive3, setStarActive3] = useState(false);
     const [starActive4, setStarActive4] = useState(false);
     const [starActive5, setStarActive5] = useState(false);
+
+    const [option1disable, setOption1Disabled] = useState(false);
+    const [option2disable, setOption2Disabled] = useState(false);
+    const [option3disable, setOption3Disabled] = useState(false);
+    const [option4disable, setOption4Disabled] = useState(false);
+
     const [rating, setRating] = useState(0);
     const [optionName, setOptionName] = useState('');
 
@@ -171,11 +183,11 @@ const PuzzleComponent = (props) => {
                     <a href="#">
                         <h5 class="text-xl mr-6 font-semibold tracking-tight text-gray-900 dark:text-white">
                             Choose the next sequence from the options below and give a rating for
-                            the puzzle. (Choose only one option!)
+                            the puzzle. (compulsary!)
                         </h5>
                     </a>
                     <div class="flex items-center">
-                        <StartFragment
+                        <StarFragment
                             flag={starActive1}
                             callback={setStarActive1}
                             allCallbacks={[
@@ -190,7 +202,7 @@ const PuzzleComponent = (props) => {
                             setRating={setRating}
                             name="Give 1 star!"
                         />
-                        <StartFragment
+                        <StarFragment
                             flag={starActive2}
                             callback={setStarActive2}
                             restCallbacks={[setStarActive1]}
@@ -205,7 +217,7 @@ const PuzzleComponent = (props) => {
                             setRating={setRating}
                             name="Give 2 star!"
                         />
-                        <StartFragment
+                        <StarFragment
                             flag={starActive3}
                             callback={setStarActive3}
                             restCallbacks={[setStarActive1, setStarActive2]}
@@ -220,7 +232,7 @@ const PuzzleComponent = (props) => {
                             setRating={setRating}
                             name="Give 3 star!"
                         />
-                        <StartFragment
+                        <StarFragment
                             flag={starActive4}
                             callback={setStarActive4}
                             restCallbacks={[setStarActive1, setStarActive2, setStarActive3]}
@@ -235,7 +247,7 @@ const PuzzleComponent = (props) => {
                             setRating={setRating}
                             name="Give 4 star!"
                         />
-                        <StartFragment
+                        <StarFragment
                             flag={starActive5}
                             callback={setStarActive5}
                             allCallbacks={[
@@ -267,6 +279,13 @@ const PuzzleComponent = (props) => {
                                 optionName="Option-1"
                                 id={props.id}
                                 folder={props.name}
+                                flag={option1disable}
+                                own={setOption1Disabled}
+                                callbacks={[
+                                    setOption2Disabled,
+                                    setOption3Disabled,
+                                    setOption4Disabled,
+                                ]}
                                 setOptionName={setOptionName}
                                 path="o1"
                             />
@@ -274,6 +293,13 @@ const PuzzleComponent = (props) => {
                                 optionName="Option-2"
                                 id={props.id}
                                 setOptionName={setOptionName}
+                                flag={option2disable}
+                                own={setOption2Disabled}
+                                callbacks={[
+                                    setOption1Disabled,
+                                    setOption3Disabled,
+                                    setOption4Disabled,
+                                ]}
                                 folder={props.name}
                                 path="o2"
                             />
@@ -281,6 +307,13 @@ const PuzzleComponent = (props) => {
                                 optionName="Option-3"
                                 id={props.id}
                                 setOptionName={setOptionName}
+                                own={setOption3Disabled}
+                                flag={option3disable}
+                                callbacks={[
+                                    setOption1Disabled,
+                                    setOption2Disabled,
+                                    setOption4Disabled,
+                                ]}
                                 folder={props.name}
                                 path="o3"
                             />
@@ -288,7 +321,14 @@ const PuzzleComponent = (props) => {
                                 optionName="Option-4"
                                 id={props.id}
                                 setOptionName={setOptionName}
+                                own={setOption4Disabled}
                                 folder={props.name}
+                                flag={option4disable}
+                                callbacks={[
+                                    setOption1Disabled,
+                                    setOption2Disabled,
+                                    setOption3Disabled,
+                                ]}
                                 path="o4"
                             />
                         </div>
