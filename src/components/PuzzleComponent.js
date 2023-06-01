@@ -142,23 +142,56 @@ const PuzzleComponent = (props) => {
         navigate('/', { replace: true });
     }
 
+    async function handleBackFromPuzzle(event) {
+        event.preventDefault();
+
+        navigate('/', { replace: true });
+    }
+
     return (
         <div class="max-w-sceen-sm p-6 bg-white border-2 border-gray-200 rounded-2xl dark:bg-gray-800 dark:border-gray-700">
-            <span class="text-xl font-semibold px-2.5 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-3 mb-3">
-                {props.number}. Puzzle Information
-            </span>
-            <span
-                class="inline-flex flex-row bg-blue-100 
-                text-blue-800 text-sm font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
-            >
-                {props.id}
-            </span>
-            <span
-                class="inline-flex flex-row bg-blue-100
-                text-blue-800 text-sm font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
-            >
-                {props.name}
-            </span>
+            <div className="flex flex-row justify-between">
+                {' '}
+                <span>
+                    <span class="text-2xl font-semibold px-2.5 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-3 mb-3">
+                        {props.number}. Puzzle Information
+                    </span>
+                    <span
+                        class="inline-flex flex-row bg-blue-100 
+                text-blue-800 text-lg font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
+                    >
+                        {props.id}
+                    </span>
+                    <span
+                        class="inline-flex flex-row bg-blue-100
+                text-blue-800 text-lg font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
+                    >
+                        Index: {props.name}
+                    </span>
+                </span>
+                <button
+                    className="inline-flex bg-black hover:bg-gray-800 text-white px-4 py-2 mb-2 rounded-xl"
+                    onClick={(e) => {
+                        handleBackFromPuzzle(e);
+                    }}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6 px-0.5"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+                        />
+                    </svg>
+                    Back
+                </button>
+            </div>
             <hr className="mb-2" />
             <div class="flex items-center justify-between">
                 <div className="mx-auto">
@@ -351,7 +384,7 @@ const PuzzleComponent = (props) => {
                     }}
                     class="text-white bg-blue-700 mx-auto hover:bg-blue-800 
                     focus:ring-4 focus:outline focus:ring-blue-300 cursor-pointer
-                    font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    mt-8 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                     Submit option and rating
                 </a>

@@ -40,11 +40,13 @@ const PuzzlesPage = () => {
                         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
                             Puzzler AI
                         </h1>
-                        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
-                            Welcome to puzzle solving! We have assigned a set of puzzles for you to
-                            solve. Please choose an option against each of the puzzles you solve. We
-                            request you to solve each puzzle assigned to you and rate it on a scale
-                            of 1 to 5, (1 being too easy and 5 being too difficult).
+                        <p class="mb-2 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
+                            Welcome to puzzle solving! You have choosen puzzle{' '}
+                            <span className="text-blue-500 px-2 font-bold">
+                                {puzzleList[state.loginId][state.active_puzzleId]}
+                            </span>
+                            to solve. Please choose an option (marked red when clicked) and rate it
+                            on a scale of 1 to 5, (1 being too easy and 5 being too difficult).
                         </p>
                     </div>
                 </section>
