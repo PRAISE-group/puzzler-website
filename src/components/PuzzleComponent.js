@@ -16,6 +16,42 @@ const PuzzleQuestionImageComponent = (props) => {
     );
 };
 
+const Loading = () => {
+    return (
+        <>
+            <div role="status" class="text-center items-center justify-center px-2 py-2">
+                <svg
+                    aria-hidden="true"
+                    class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill"
+                    />
+                </svg>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </>
+    );
+};
+
+const Image = (props) => {
+    return (
+        <img
+            src={props.fullPath}
+            loading="lazy"
+            alt="Loading.."
+            className="w-36 h-40 rounded-xl items-center"
+        />
+    );
+};
 const PuzzleOptionsImageComponent = (props) => {
     const optionsId = `data-${props.id}_${props.optionName}`;
     const fullPath = `/generated/${props.folder}/${props.path}.png`;
@@ -46,7 +82,9 @@ const PuzzleOptionsImageComponent = (props) => {
                     peer-checked:text-red-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
                 <div>
-                    <img src={fullPath} className="w-36 h-40 rounded-xl items-center" />
+                    <Suspense fallback={<Loading />}>
+                        <Image fullPath={fullPath} />
+                    </Suspense>
                     <span className="mt-2 mb-2 font-semibold text-xl">{props.optionName}</span>
                 </div>
             </label>
@@ -117,7 +155,6 @@ const PuzzleComponent = (props) => {
     const [starActive2, setStarActive2] = useState(false);
     const [starActive3, setStarActive3] = useState(false);
     const [starActive4, setStarActive4] = useState(false);
-    const [starActive5, setStarActive5] = useState(false);
 
     const [option1disable, setOption1Disabled] = useState(false);
     const [option2disable, setOption2Disabled] = useState(false);
@@ -135,16 +172,12 @@ const PuzzleComponent = (props) => {
             alert('Please choose option and rating!');
             return;
         }
-
-        await effects.submitPuzzleRating(loginId, puzzleId, rating);
-        await effects.submitPuzzleOption(loginId, puzzleId, option);
-
+        await effects.submitPuzzleData(loginId, puzzleId, rating, option);
         navigate('/', { replace: true });
     }
 
     async function handleBackFromPuzzle(event) {
         event.preventDefault();
-
         navigate('/', { replace: true });
     }
 
@@ -163,10 +196,16 @@ const PuzzleComponent = (props) => {
                         {props.id}
                     </span>
                     <span
-                        class="inline-flex flex-row bg-blue-100
-                text-blue-800 text-lg font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
+                        class="inline-flex flex-row bg-primary-100
+                text-primary-800 text-lg font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
                     >
                         Index: {props.name}
+                    </span>
+                    <span
+                        class="inline-flex flex-row bg-black
+                text-white text-lg font-semibold mr-1 px-2 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-1 mb-3"
+                    >
+                        LoginId: {props.loginId}
                     </span>
                 </span>
                 <button
@@ -223,12 +262,14 @@ const PuzzleComponent = (props) => {
             <div class="px-5 pb-5">
                 <div class="flex flex-col space-y-2 justify-between items-center mt-2.5 mb-5">
                     <a href="#">
-                        <h5 class="text-xl mr-6 font-semibold tracking-tight text-gray-900 dark:text-white">
-                            Choose the next sequence from the options below and give a rating for
-                            the puzzle. (compulsary!)
+                        <h5 class="text-xl px-10 tracking-tight text-gray-900 dark:text-white">
+                            See the seqeunce of puzzle images above. Choose the next sequence from
+                            the options shown below and give a rating for the puzzle. The option you
+                            choose will appear "red".
                         </h5>
                     </a>
                     <div class="flex items-center">
+                        <span className="px-2 font-bold text-xl">Puzzle Rating:</span>
                         <StarFragment
                             flag={starActive1}
                             callback={setStarActive1}
@@ -237,7 +278,6 @@ const PuzzleComponent = (props) => {
                                 setStarActive2,
                                 setStarActive3,
                                 setStarActive4,
-                                setStarActive5,
                             ]}
                             restCallbacks={[]}
                             rating="1"
@@ -253,7 +293,6 @@ const PuzzleComponent = (props) => {
                                 setStarActive2,
                                 setStarActive3,
                                 setStarActive4,
-                                setStarActive5,
                             ]}
                             rating="2"
                             setRating={setRating}
@@ -268,7 +307,6 @@ const PuzzleComponent = (props) => {
                                 setStarActive2,
                                 setStarActive3,
                                 setStarActive4,
-                                setStarActive5,
                             ]}
                             rating="3"
                             setRating={setRating}
@@ -283,34 +321,13 @@ const PuzzleComponent = (props) => {
                                 setStarActive2,
                                 setStarActive3,
                                 setStarActive4,
-                                setStarActive5,
                             ]}
                             rating="4"
                             setRating={setRating}
                             name="Give 4 star!"
                         />
-                        <StarFragment
-                            flag={starActive5}
-                            callback={setStarActive5}
-                            allCallbacks={[
-                                setStarActive1,
-                                setStarActive2,
-                                setStarActive3,
-                                setStarActive4,
-                                setStarActive5,
-                            ]}
-                            restCallbacks={[
-                                setStarActive1,
-                                setStarActive2,
-                                setStarActive3,
-                                setStarActive4,
-                            ]}
-                            rating="5"
-                            setRating={setRating}
-                            name="Give 5 star!"
-                        />
                         <span class="bg-blue-100 text-blue-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
-                            {rating} out of 5
+                            {rating} out of 4
                         </span>
                     </div>
                 </div>

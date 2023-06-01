@@ -7,62 +7,77 @@ import {
     serverTimestamp,
     arrayUnion,
     arrayRemove,
+    collectionGroup,
 } from 'firebase/firestore';
 
-export const getRegistrationData = async (loginId) => {
-    // const q = query(
-    //     collection(db, 'courseRegData'),
-    //     where('loginId', '==', JSON.stringify(`${loginId.toString()}`))
-    // )
-    // const querySnapshot = await getDocs(q)
-    // if (!querySnapshot.empty) {
-    //     var data = {}
-    //     querySnapshot.docs.map(async (t) => {
-    //         data = t.data()
-    //     })
-    //     return data
-    // } else {
-    //     return null
-    // }
-};
-
-export const getPaymentDetails = async (loginId) => {
-    // const q = query(
-    //     collection(db, 'paymentData'),
-    //     where('loginId', '==', JSON.stringify(`${loginId.toString()}`))
-    // )
-    // const querySnapshot = await getDocs(q)
-    // if (!querySnapshot.empty) {
-    //     var data = {}
-    //     querySnapshot.docs.map(async (t) => {
-    //         data = t.data()
-    //     })
-    //     return data
-    // } else {
-    //     return null
-    // }
-};
-
-export const submitPuzzleRating = async (loginId, puzzleId, rating) => {
+export const submitPuzzleData = async (loginId, puzzleId, rating, option) => {
     try {
-        await setDoc(doc(db, `puzzlerUserData/${loginId}/${puzzleId}`, 'rating'), {
-            timestamp: serverTimestamp(),
+        await updateDoc(doc(db, `puzzlerUserData/${loginId}/submissions`, puzzleId), {
+            loginId: loginId,
+            puzzleId: puzzleId,
             setRating: true,
+            setOption: true,
+            submitted: true,
+            attempted: true,
             rating: rating,
+            option: option,
+            submit_time: serverTimestamp(),
+            location: window.location.href,
         });
     } catch (e) {
-        alert(e);
+        console.table(e);
     }
 };
 
-export const submitPuzzleOption = async (loginId, puzzleId, option) => {
+export const setPuzzleAttempted = async (loginId, puzzleId) => {
     try {
-        await setDoc(doc(db, `puzzlerUserData/${loginId}/${puzzleId}`, 'option'), {
-            timestamp: serverTimestamp(),
-            optionChoosen: true,
-            option: option,
-        });
+        const q = query(
+            collectionGroup(db, 'submissions'),
+            where('loginId', '==', loginId),
+            where('puzzleId', '==', puzzleId)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            await setDoc(doc(db, `puzzlerUserData/${loginId}/submissions`, puzzleId), {
+                loginId: loginId,
+                puzzleId: puzzleId,
+                setRating: false,
+                setOption: false,
+                submitted: false,
+                attempted: true,
+                rating: null,
+                option: null,
+                attempt_start_time: serverTimestamp(),
+                location: window.location.href,
+            });
+        } else {
+            await updateDoc(doc(db, `puzzlerUserData/${loginId}/submissions`, puzzleId), {
+                next_attempt_start_time: serverTimestamp(),
+            });
+        }
     } catch (e) {
-        alert(e);
+        console.table(e);
+    }
+};
+
+export const getPuzzleSubmissionData = async (loginId, puzzleId) => {
+    try {
+        const q = query(
+            collectionGroup(db, 'submissions'),
+            where('loginId', '==', loginId),
+            where('puzzleId', '==', puzzleId)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            var data = {};
+            querySnapshot.docs.map(async (t) => {
+                data = t.data();
+            });
+            return data;
+        } else {
+            return null;
+        }
+    } catch (e) {
+        console.table(e);
     }
 };
