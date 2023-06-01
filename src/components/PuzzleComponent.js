@@ -4,12 +4,10 @@ import { useAppState, useActions, useEffects, useReaction } from '../overmind';
 import React, { lazy, Suspense } from 'react';
 import { Analytics, logEvent } from 'firebase/analytics';
 import { db, analytics } from '../firebase/firebase.js';
-
-import s2image from '../assets/s2.png';
-import o4image from '../assets/o4.png';
+import { useNavigate } from 'react-router-dom';
 
 const PuzzleQuestionImageComponent = (props) => {
-    const fullPath = `/benchmarks/${props.folder}/${props.path}.png`;
+    const fullPath = `/generated/${props.folder}/${props.path}.png`;
     return (
         <div className="bg-blue-200 hover:bg-blue-300 hover:shadow-lg items-center text-center shadow-xl mb-6 shadow-blue-200 p-1 rounded-xl border-2 border-blue-500">
             <img src={fullPath} className="w-40 h-40 rounded-xl items-center" />
@@ -20,7 +18,7 @@ const PuzzleQuestionImageComponent = (props) => {
 
 const PuzzleOptionsImageComponent = (props) => {
     const optionsId = `data-${props.id}_${props.optionName}`;
-    const fullPath = `/benchmarks/${props.folder}/${props.path}.PNG`;
+    const fullPath = `/generated/${props.folder}/${props.path}.png`;
 
     return (
         <div>
@@ -48,7 +46,7 @@ const PuzzleOptionsImageComponent = (props) => {
                     peer-checked:text-red-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
                 <div>
-                    <img src={fullPath} className="w-40 h-40 rounded-xl items-center" />
+                    <img src={fullPath} className="w-36 h-40 rounded-xl items-center" />
                     <span className="mt-2 mb-2 font-semibold text-xl">{props.optionName}</span>
                 </div>
             </label>
@@ -110,6 +108,11 @@ const StarFragment = (props) => {
     );
 };
 const PuzzleComponent = (props) => {
+    const state = useAppState();
+    const actions = useActions();
+    const reaction = useReaction();
+    const navigate = useNavigate();
+
     const [starActive1, setStarActive1] = useState(false);
     const [starActive2, setStarActive2] = useState(false);
     const [starActive3, setStarActive3] = useState(false);
@@ -128,9 +131,15 @@ const PuzzleComponent = (props) => {
 
     async function handleSubmit(event, loginId, puzzleId, option, rating) {
         event.preventDefault();
-        if (option === '' || rating === 0) alert('Please choose option and rating!');
+        if (option === '' || rating === 0) {
+            alert('Please choose option and rating!');
+            return;
+        }
+
         await effects.submitPuzzleRating(loginId, puzzleId, rating);
         await effects.submitPuzzleOption(loginId, puzzleId, option);
+
+        navigate('/', { replace: true });
     }
 
     return (
@@ -338,7 +347,7 @@ const PuzzleComponent = (props) => {
             <div className="flex items-center justify-between">
                 <a
                     onClick={(e) => {
-                        handleSubmit(e, 'pz34564', props.name, optionName, rating);
+                        handleSubmit(e, state.loginId, props.name, optionName, rating);
                     }}
                     class="text-white bg-blue-700 mx-auto hover:bg-blue-800 
                     focus:ring-4 focus:outline focus:ring-blue-300 cursor-pointer

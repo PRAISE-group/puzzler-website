@@ -2,14 +2,39 @@ import { Link } from 'react-router-dom';
 import react, { useEffect, useState } from 'react';
 import { useAppState, useActions, useEffects, useReaction } from '../overmind';
 import React, { lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import PuzzleComponent from '../components/PuzzleComponent';
+import { puzzleList } from '../data/puzzleList';
+
 import { Analytics, logEvent } from 'firebase/analytics';
 import { db, analytics } from '../firebase/firebase.js';
 
 const PuzzlesPage = () => {
+    // General
+    const state = useAppState();
+    const actions = useActions();
+    const effects = useEffects();
+    const reaction = useReaction();
+
+    const navigate = useNavigate();
+
+    const puzzleNumberList = [
+        'Puzzle-1',
+        'Puzzle-2',
+        'Puzzle-3',
+        'Puzzle-4',
+        'Puzzle-5',
+        'Puzzle-6',
+        'Puzzle-7',
+        'Puzzle-8',
+        'Puzzle-9',
+        'Puzzle-10',
+    ];
+
     return (
         <>
-            <div className="mx-auto max-w-screen-2xl">
+            <div className="mx-auto max-w-screen-2xl px-20">
                 <section class="bg-white dark:bg-gray-900">
                     <div class="py-8 px-4 mx-auto max-w-screen-2xl text-center lg:py-16">
                         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -24,13 +49,23 @@ const PuzzlesPage = () => {
                     </div>
                 </section>
                 <section className="bg-white dark:bg-gray-900 px-4 mx-auto max-w-screen-2xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <PuzzleComponent id="puzzle_872635" name="b0001" number="1" />
-                        <PuzzleComponent id="puzzle_341243" name="b0041" number="2" />
-                        <PuzzleComponent id="puzzle_235312" name="b0003" number="3" />
-                        <PuzzleComponent id="puzzle_534523" name="b0004" number="4" />
-                        <PuzzleComponent id="puzzle_884567" name="b0005" number="5" />
-                        <PuzzleComponent id="puzzle_774563" name="b0006" number="6" />
+                    <div className="grid grid-cols-1">
+                        {/* {puzzleNumberList.map((puzzleId) => {
+                            return (
+                                <PuzzleComponent
+                                    key={puzzleId}
+                                    id={puzzleId}
+                                    name={puzzleList[state.loginId][puzzleId]}
+                                    number={puzzleId.split('-')[1]}
+                                />
+                            );
+                        })} */}
+                        <PuzzleComponent
+                            key={state.active_puzzleId}
+                            id={state.active_puzzleId}
+                            name={puzzleList[state.loginId][state.active_puzzleId]}
+                            number={state.active_puzzleId.split('-')[1]}
+                        />
                     </div>
                 </section>
             </div>

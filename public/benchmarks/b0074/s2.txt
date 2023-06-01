@@ -1,4 +1,0 @@
-circle 4,4,7,0
-square 4,1,4,1,1
-plus 4,7,4,7
-circle 7,4,1,1

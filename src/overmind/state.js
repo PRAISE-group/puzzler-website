@@ -1,3 +1,5 @@
 export const state = {
-    email: '',
-}
+    loginId: '',
+    active_puzzleId: '',
+    toggleShowList: false,
+};

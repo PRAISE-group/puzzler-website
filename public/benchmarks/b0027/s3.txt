@@ -1,4 +1,0 @@
-plus 6,1,6,3
-square 5,5,7,7,0
-triangle 1,7,2,5,3,7,0
-circle 2,2,2,0
