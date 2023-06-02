@@ -209,17 +209,25 @@ const App = () => {
                     <p class="mb-6 text-lg md:text-2xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
                         Please login below with your unique id and solve the puzzles shown. Remember
                         to rate the puzzles (on a scale from 1 to 4). We are collecting this data
-                        for a reseach project. We don't collect any personal information from you,
-                        it is completely anonymous. You should use the unique id from the ones shown
-                        below, and not any other id.
+                        for a reseach project. We don't collect any personal information from you on
+                        this website, it is completely anonymous. You should use the unique id from
+                        the ones shown below in green, and not any other UID.
                     </p>{' '}
                     {state.loginId !== '' && (
-                        <span
-                            class="text-2xl items-center mb-10 
-                            bg-primary-200 border-2 border-green-400 rounded-xl w-64 px-8 text-center font-bold text-primary-700"
-                        >
-                            Login-Id: {state.loginId}
-                        </span>
+                        <div className="px-12 m-8 mx-auto text-center justify-center">
+                            <a
+                                class="block p-6 bg-white border-2 border-gray-800 
+                                    rounded-lg shadow-lg shadow-gray-400 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                            >
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-blue-600 dark:text-white">
+                                    Your login id (UID) is {state.loginId}
+                                </h5>
+                                <p class="font-bold text-lg text-gray-800 dark:text-gray-400">
+                                    Please remember your login id. You may logout and login later
+                                    with the same UID, your submission status is saved.
+                                </p>
+                            </a>
+                        </div>
                     )}
                 </div>
             </section>
@@ -243,7 +251,7 @@ const App = () => {
                     >
                         <div class="space-y-4 md:space-y-6 sm:p-8">
                             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                {state.toggleShowList && <>Solve the puzzles assigned!</>}
+                                {state.toggleShowList && <>Submit for all the puzzles assigned!</>}
                                 {!state.toggleShowList && <>Get you puzzles now!</>}
                             </h1>
                             <form class="space-y-4 md:space-y-6" action="submit">
@@ -332,11 +340,12 @@ const App = () => {
                         </div>
                     </div>
                     {!state.toggleShowList && (
-                        <div className="max-w-screen-xl mt-16 p-6 border-2 border-primary-400 rounded-2xl">
-                            <p className="mb-6 text-lg md:text-2xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
+                        <div className="max-w-screen-xl mt-8 p-4 border-2 border-primary-400 rounded-2xl">
+                            <p className="text-center mb-6 text-base font-normal text-gray-500 sm:px-2 dark:text-gray-400">
                                 Please choose from the available UIDs shown below in green. Please
-                                don't solve someone else's puzzles using other UIDs. Please refresh
-                                to check available UIDs.
+                                refresh to check available UIDs and solve only one set of puzzles
+                                using one of the UIDs shown below. Remember your UID for login
+                                later!
                             </p>
                             <div className="grid grid-cols-3 lg:grid-cols-12 gap-6">
                                 {state.availableUids.map((uids) => {
@@ -356,25 +365,31 @@ const LoginIdFragment = (props) => {
     const actions = useActions();
     const effects = useEffects();
 
+    const [uidtext, setUidText] = useState('Loading...');
     const [isUsed, setIsUsed] = useState(false);
 
     useEffect(() => {
         (async () => {
             const hasBeenUsed = await effects.getUIDusageStatus(props.uid);
-            if (hasBeenUsed == true) setIsUsed(true);
+            if (hasBeenUsed == true) {
+                setIsUsed(true);
+                setUidText('UID used!');
+            } else {
+                setUidText(props.uid);
+            }
         })();
     }, []);
 
     return (
         <>
             {!isUsed && (
-                <span className="text-lg text-primary-700 font-bold hover:bg-gray-200 text-center">
-                    {props.uid}
+                <span className="text-sm text-primary-700 font-bold hover:bg-primary-200 text-center">
+                    {uidtext}
                 </span>
             )}
             {isUsed && (
-                <span className="text-lg text-red-600 font-bold hover:bg-gray-200 text-center">
-                    UID used
+                <span className="text-sm text-red-600 bg-red-100 font-bold hover:bg-red-200 text-center">
+                    {uidtext}
                 </span>
             )}
         </>

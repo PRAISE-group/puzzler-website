@@ -92,7 +92,7 @@ const PuzzlesPage = () => {
                                     </span>
                                     <span>
                                         <h3 class="font-medium leading-tight">Rating 4 Star</h3>
-                                        <p class="text-sm">Puzzle is bad.</p>
+                                        <p class="text-sm">Puzzle is great.</p>
                                     </span>
                                 </p>
                             </div>

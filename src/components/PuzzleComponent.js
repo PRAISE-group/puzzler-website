@@ -230,7 +230,7 @@ const PuzzleComponent = (props) => {
         navigate('/', { replace: true });
     }
 
-    const [gridTxt, setGridText] = useState(`grid grid-cols-2 md:grid-cols-5 gap-6 items-center`);
+    const [gridTxt, setGridText] = useState(`grid grid-cols-2 md:grid-cols-3 gap-6 items-center`);
 
     useEffect(() => {
         setGridText(`grid grid-cols-2 md:grid-cols-${state.numSeqs} gap-6 items-center`);
