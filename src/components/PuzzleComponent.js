@@ -30,6 +30,7 @@ const PuzzleQuestionImageComponent = (props) => {
                     onError={() => {
                         actions.setQuestionImagesNumSeq(state.numSeqs - 1);
                         setHidden(true);
+                        setLoaded(true);
                     }}
                     className="w-36 h-40 rounded-xl items-center text-center"
                 />
@@ -124,6 +125,7 @@ const PuzzleOptionsImageComponent = (props) => {
                         onLoad={onLoad}
                         onError={(e) => {
                             console.log(e);
+                            setLoaded(true);
                         }}
                         className="w-36 h-40 rounded-xl items-center text-center"
                     />
