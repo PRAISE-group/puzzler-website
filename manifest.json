@@ -1,0 +1,25 @@
+{
+    "short_name": "Puzzler AI Website",
+    "name": "Use login id (unique id) from the allocation sheet and start you puzzle solving journey!",
+    "icons": [
+        {
+            "src": "favicon.ico",
+            "sizes": "64x64 32x32 24x24 16x16",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "iitklogo.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "poster.jpeg",
+            "type": "image/png",
+            "sizes": "256x512"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+}

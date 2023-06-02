@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/puzzler-ai/static/css/main.20bf84a0.css",
+    "main.js": "/puzzler-ai/static/js/main.51a9aac7.js",
+    "index.html": "/puzzler-ai/index.html",
+    "main.20bf84a0.css.map": "/puzzler-ai/static/css/main.20bf84a0.css.map",
+    "main.51a9aac7.js.map": "/puzzler-ai/static/js/main.51a9aac7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.20bf84a0.css",
+    "static/js/main.51a9aac7.js"
+  ]
+}
