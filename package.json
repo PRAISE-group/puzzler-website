@@ -1,7 +1,8 @@
 {
     "name": "puzzler-website",
-    "version": "0.1.0",
-    "private": true,
+    "version": "1.0.0",
+    "homepage": "https://praise-group.github.io/puzzler-website",
+    "private": false,
     "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@testing-library/jest-dom": "^5.16.5",
@@ -25,6 +26,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
+        "gitdeploy": "react-scripts build && gh-pages -d build",
         "deploy": "react-scripts build && netlify deploy --prod"
     },
     "eslintConfig": {
@@ -47,6 +49,7 @@
     },
     "devDependencies": {
         "autoprefixer": "^10.4.14",
+        "gh-pages": "^5.0.0",
         "postcss": "^8.4.23",
         "tailwindcss": "^3.3.2"
     }
