@@ -182,6 +182,8 @@ const App = () => {
         await actions.setLoginId(loginId);
         await actions.setToggleShowList(true);
 
+        await effects.setLoginIdInUse(loginId);
+
         window.sessionStorage.setItem('loginId', JSON.stringify(state.loginId));
     }
 
@@ -208,8 +210,8 @@ const App = () => {
                         Please login below with your unique id and solve the puzzles shown. Remember
                         to rate the puzzles (on a scale from 1 to 4). We are collecting this data
                         for a reseach project. We don't collect any personal information from you,
-                        it is completely anonymous. You should use the unique id from the allocation
-                        sheet, and not any other id.
+                        it is completely anonymous. You should use the unique id from the ones shown
+                        below, and not any other id.
                     </p>{' '}
                     {state.loginId !== '' && (
                         <span
@@ -293,13 +295,13 @@ const App = () => {
                                                     </label>
                                                 </div>
                                             </div>
-                                            <a
+                                            {/* <a
                                                 href="https://docs.google.com/spreadsheets/d/1OPMZOKl2iovY4d5oO4rQtk9ToAtRX35GHQF5vgaTdwM/edit?usp=sharing"
                                                 target="_blank"
                                                 class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                             >
                                                 Allocation Sheet
-                                            </a>
+                                            </a> */}
                                         </div>
                                         <button
                                             type="submit"
@@ -329,9 +331,53 @@ const App = () => {
                             </form>
                         </div>
                     </div>
+                    {!state.toggleShowList && (
+                        <div className="mt-10 p-6 border-2 border-primary-400 rounded-2xl">
+                            <p className="mb-6 text-lg md:text-2xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
+                                Please choose from the available UIDs shown below in green. Please
+                                don't solve someone else's puzzles using other UIDs.
+                            </p>
+                            <div className="grid grid-cols-2 lg:grid-cols-12 gap-6">
+                                {state.availableUids.map((uids) => {
+                                    return <LoginIdFragment uid={uids} key={uids} />;
+                                })}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </section>
         </div>
+    );
+};
+
+const LoginIdFragment = (props) => {
+    const state = useAppState();
+    const actions = useActions();
+    const effects = useEffects();
+
+    const [isUsed, setIsUsed] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const hasBeenUsed = await effects.getUIDusageStatus(props.uid);
+            console.log(hasBeenUsed);
+            if (hasBeenUsed == true) setIsUsed(true);
+        })();
+    }, []);
+
+    return (
+        <>
+            {!isUsed && (
+                <span className="text-lg text-primary-700 font-bold hover:bg-gray-200 text-center">
+                    {props.uid}
+                </span>
+            )}
+            {isUsed && (
+                <span className="text-lg text-red-600 font-bold hover:bg-gray-200 text-center">
+                    UID used
+                </span>
+            )}
+        </>
     );
 };
 

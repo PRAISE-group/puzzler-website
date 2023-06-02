@@ -29,6 +29,35 @@ export const submitPuzzleData = async (loginId, puzzleId, rating, option) => {
     }
 };
 
+export const setLoginIdInUse = async (loginId) => {
+    try {
+        await setDoc(doc(db, 'inUse', loginId), {
+            loginId: loginId,
+            login_used: serverTimestamp(),
+            location: window.location.href,
+        });
+    } catch (e) {
+        console.table(e);
+    }
+};
+
+export const getUIDusageStatus = async (loginId) => {
+    try {
+        const q = query(collection(db, 'inUse'), where('loginId', '==', JSON.stringify(loginId)));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            // querySnapshot.docs.map(async (t) => {
+            //     console.log(JSON.parse(t.data().loginId));
+            // });
+            return true;
+        } else {
+            return false;
+        }
+    } catch (e) {
+        console.table(e);
+    }
+};
+
 export const setPuzzleAttempted = async (loginId, puzzleId) => {
     try {
         const q = query(
