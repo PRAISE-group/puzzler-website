@@ -8,11 +8,29 @@ import { useNavigate } from 'react-router-dom';
 
 const PuzzleQuestionImageComponent = (props) => {
     const fullPath = `/generated/${props.folder}/${props.path}.png`;
+    const actions = useActions();
+    const state = useAppState();
+    const [hidden, setHidden] = useState(false);
     return (
-        <div className="bg-blue-200 hover:bg-blue-300 hover:shadow-lg items-center text-center shadow-xl mb-6 shadow-blue-200 p-1 rounded-xl border-2 border-blue-500">
-            <img src={fullPath} className="w-40 h-40 rounded-xl items-center" />
-            <p className="p-2 text-xl font-semibold tracking-tight">{props.seqName}</p>
-        </div>
+        !hidden && (
+            <div
+                className="bg-blue-200 hover:bg-blue-300
+                items-center text-center shadow-lg mb-6 shadow-blue-400 p-1 rounded-xl border-2 border-blue-500"
+            >
+                <img
+                    src={fullPath}
+                    loading="lazy"
+                    alt="No Image"
+                    onError={() => {
+                        actions.setQuestionImagesNumSeq(state.numSeqs - 1);
+                        setHidden(true);
+                    }}
+                    className="w-36 h-40 rounded-xl items-center text-center"
+                />
+
+                <p className="p-2 text-xl font-semibold tracking-tight">{props.seqName}</p>
+            </div>
+        )
     );
 };
 
@@ -28,11 +46,23 @@ const Loading = () => {
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 
+                            78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 
+                            100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 
+                            50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 
+                            72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
                         fill="currentColor"
                     />
                     <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 
+                        33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 
+                        15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 
+                        1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 
+                        1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 
+                        41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 
+                        10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 
+                        79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 
+                        35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
                         fill="currentFill"
                     />
                 </svg>
@@ -47,8 +77,11 @@ const Image = (props) => {
         <img
             src={props.fullPath}
             loading="lazy"
-            alt="Loading.."
-            className="w-36 h-40 rounded-xl items-center"
+            alt="No Image"
+            onError={(e) => {
+                console.log(e);
+            }}
+            className="w-36 h-40 rounded-xl items-center text-center"
         />
     );
 };
@@ -75,10 +108,11 @@ const PuzzleOptionsImageComponent = (props) => {
             />
             <label
                 for={optionsId}
-                class="inline-flex items-center bg-primary-200 
-                    hover:bg-primary-300 hover:shadow-lg items-center text-center shadow-xl p-1 shadow-primary-200 p-1 rounded-xl 
+                class="inline-flex text-center items-center bg-primary-200 
+                    hover:bg-primary-300 hover:shadow-lg items-center text-center shadow-lg shadow-primary-400 p-1 rounded-xl 
                     border-2 border-primary-500 justify-between cursor-pointer dark:hover:text-gray-300 
-                    dark:border-gray-700 peer-checked:bg-red-50 peer-checked:shadow-red-200 peer-checked:border-red-600 hover:text-gray-600 dark:peer-checked:text-gray-300 
+                    dark:border-gray-700 peer-checked:bg-red-50 peer-checked:shadow-red-200 peer-checked:border-red-600 
+                    hover:text-gray-600 dark:peer-checked:text-gray-300 
                     peer-checked:text-red-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
                 <div>
@@ -99,7 +133,7 @@ const StarFragment = (props) => {
             {!props.flag && (
                 <svg
                     aria-hidden="true"
-                    class="w-7 h-7 text-gray-300 hover:text-yellow-400"
+                    class="w-8 h-8 text-gray-400 hover:text-primary-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +156,7 @@ const StarFragment = (props) => {
             {props.flag && (
                 <svg
                     aria-hidden="true"
-                    class="w-7 h-7 text-yellow-400"
+                    class="w-8 h-8 text-yellow-300"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -181,9 +215,15 @@ const PuzzleComponent = (props) => {
         navigate('/', { replace: true });
     }
 
+    const [gridTxt, setGridText] = useState(`grid grid-cols-2 md:grid-cols-5 gap-6 items-center`);
+
+    useEffect(() => {
+        setGridText(`grid grid-cols-2 md:grid-cols-${state.numSeqs} gap-6 items-center`);
+    }, [state.numSeqs, gridTxt]);
+
     return (
-        <div class="max-w-sceen-sm p-6 bg-white border-2 border-gray-200 rounded-2xl dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-row justify-between">
+        <div class="p-6 bg-white border-2 border-gray-200 rounded-2xl dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex flex-col md:flex-row justify-between">
                 {' '}
                 <span>
                     <span class="text-2xl font-semibold px-2.5 py-0.5 dark:bg-blue-200 dark:text-blue-800 ml-3 mb-3">
@@ -209,7 +249,7 @@ const PuzzleComponent = (props) => {
                     </span>
                 </span>
                 <button
-                    className="inline-flex bg-black hover:bg-gray-800 text-white px-4 py-2 mb-2 rounded-xl"
+                    className="text-center inline-flex w-24 bg-black hover:bg-gray-800 text-white px-4 py-2 mb-2 rounded-xl"
                     onClick={(e) => {
                         handleBackFromPuzzle(e);
                     }}
@@ -234,7 +274,7 @@ const PuzzleComponent = (props) => {
             <hr className="mb-2" />
             <div class="flex items-center justify-between">
                 <div className="mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
+                    <div className={gridTxt}>
                         <PuzzleQuestionImageComponent
                             seqName="Seq-1"
                             folder={props.name}
@@ -255,14 +295,19 @@ const PuzzleComponent = (props) => {
                             folder={props.name}
                             path="s4"
                         />
+                        <PuzzleQuestionImageComponent
+                            seqName="Seq-5"
+                            folder={props.name}
+                            path="s5"
+                        />
                     </div>
                 </div>
             </div>
             <hr className="mb-2" />
-            <div class="px-5 pb-5">
-                <div class="flex flex-col space-y-2 justify-between items-center mt-2.5 mb-5">
+            <div class="md:px-5 md:pb-5">
+                <div class="flex flex-col text-center space-y-2 justify-between items-center mt-2.5 mb-5">
                     <a href="#">
-                        <h5 class="text-xl px-10 tracking-tight text-gray-900 dark:text-white">
+                        <h5 class="text-xl mt-4 mb-4 md:px-10 md:mt-2 md:mb-2 tracking-tight text-gray-900 dark:text-white">
                             See the seqeunce of puzzle images above. Choose the next sequence from
                             the options shown below and give a rating for the puzzle. The option you
                             choose will appear "red".
@@ -326,14 +371,14 @@ const PuzzleComponent = (props) => {
                             setRating={setRating}
                             name="Give 4 star!"
                         />
-                        <span class="bg-blue-100 text-blue-800 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">
+                        <span class="bg-yellow-100 text-yellow-800 text-md font-semibold px-2 py-0.5 rounded ml-4">
                             {rating} out of 4
                         </span>
                     </div>
                 </div>
-                <div class="flex items-center justify-between">
+                <div class="flex flex-row items-center justify-between">
                     <div className="mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 justify-center">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-center">
                             <PuzzleOptionsImageComponent
                                 optionName="Option-1"
                                 id={props.id}

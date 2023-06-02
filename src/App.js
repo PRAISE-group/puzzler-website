@@ -200,25 +200,31 @@ const App = () => {
     return (
         <div className="App">
             <section class="bg-white dark:bg-gray-900">
-                <div class="px-4 mx-auto max-w-screen-xl text-center lg:py-16">
-                    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                <div class="mb-4 px-10 mx-auto max-w-screen-xl text-center">
+                    <h1 class="mb-4 md:mb-8 mt-16 md:mt-20 text-5xl md:text-6xl font-extrabold tracking-tight leading-none text-gray-900">
                         Puzzler AI
                     </h1>
-                    <p class="mb-2 text-2xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
+                    <p class="mb-6 text-lg md:text-2xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
                         Please login below with your unique id and solve the puzzles shown. Remember
-                        to rate the puzzles (on a scale from 1 to 4).
+                        to rate the puzzles (on a scale from 1 to 4). We are collecting this data
+                        for a reseach project. We don't collect any personal information from you,
+                        it is completely anonymous. You should use the unique id from the allocation
+                        sheet, and not any other id.
                     </p>{' '}
                     {state.loginId !== '' && (
-                        <span class="text-2xl items-center bg-primary-200 border-2 border-green-400 rounded-xl w-64 px-8 text-center font-bold text-primary-700">
+                        <span
+                            class="text-2xl items-center mb-10 
+                            bg-primary-200 border-2 border-green-400 rounded-xl w-64 px-8 text-center font-bold text-primary-700"
+                        >
                             Login-Id: {state.loginId}
                         </span>
                     )}
                 </div>
             </section>
             {state.toggleShowList && (
-                <section class="mb-10 px-4 mx-auto max-w-screen-xl">
+                <section class="mb-10 w-96 md:w-full md:px-6 px-2 mx-auto max-w-screen-xl">
                     <div className="">
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+                        <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
                             {puzzleNumberList.map((puzzleId) => {
                                 return <PuzzleWidget puzzleId={puzzleId} key={puzzleId} />;
                             })}
@@ -228,8 +234,11 @@ const App = () => {
             )}
             {/* Login Section */}
             <section class="">
-                <div class="px-6 py-2 flex flex-col items-center justify-center mx-auto lg:py-0">
-                    <div class="w-full bg-white rounded-lg border-2 border-blue-500 shadow-xl shadow-blue-500 dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div class="px-4 flex flex-col items-center justify-center mx-auto lg:py-0">
+                    <div
+                        class="w-full bg-white rounded-lg border md:border-2 border-blue-500 shadow-lg md:shadow-xl
+                        m-4 p-6 md:p-2 shadow-blue-500 dark:border max-w-md dark:bg-gray-800 dark:border-gray-700"
+                    >
                         <div class="space-y-4 md:space-y-6 sm:p-8">
                             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 {state.toggleShowList && <>Solve the puzzles assigned!</>}
@@ -280,7 +289,7 @@ const App = () => {
                                                         for="remember"
                                                         class="text-gray-500 dark:text-gray-300"
                                                     >
-                                                        Accept Terms & Conditions
+                                                        You consent to data collection.
                                                     </label>
                                                 </div>
                                             </div>

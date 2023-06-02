@@ -12,6 +12,10 @@ export const setToggleShowList = ({ state }, toggleShowList) => {
     state.toggleShowList = toggleShowList;
 };
 
+export const setQuestionImagesNumSeq = ({ state }, numSeqs) => {
+    state.numSeqs = numSeqs;
+};
+
 export const rehydrateData = ({ state }, data) => {
     // Grab a previous copy of the state, for example stored in
     // localstorage
