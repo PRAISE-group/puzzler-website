@@ -7,7 +7,7 @@ import { db, analytics } from '../firebase/firebase.js';
 import { useNavigate } from 'react-router-dom';
 
 const PuzzleQuestionImageComponent = (props) => {
-    const fullPath = `#/generated/${props.folder}/${props.path}.png`;
+    const fullPath = `./generated/${props.folder}/${props.path}.png`;
     const actions = useActions();
     const state = useAppState();
     const [hidden, setHidden] = useState(false);
@@ -85,7 +85,7 @@ const Loading = () => {
 
 const PuzzleOptionsImageComponent = (props) => {
     const optionsId = `data-${props.id}_${props.optionName}`;
-    const fullPath = `#/generated/${props.folder}/${props.path}.png`;
+    const fullPath = `./generated/${props.folder}/${props.path}.png`;
     const [loaded, setLoaded] = useState(false);
     const onLoad = useCallback(() => {
         setLoaded(true);
