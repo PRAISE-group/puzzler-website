@@ -332,12 +332,13 @@ const App = () => {
                         </div>
                     </div>
                     {!state.toggleShowList && (
-                        <div className="mt-10 p-6 border-2 border-primary-400 rounded-2xl">
+                        <div className="max-w-screen-xl mt-16 p-6 border-2 border-primary-400 rounded-2xl">
                             <p className="mb-6 text-lg md:text-2xl font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
                                 Please choose from the available UIDs shown below in green. Please
-                                don't solve someone else's puzzles using other UIDs.
+                                don't solve someone else's puzzles using other UIDs. Please refresh
+                                to check available UIDs.
                             </p>
-                            <div className="grid grid-cols-2 lg:grid-cols-12 gap-6">
+                            <div className="grid grid-cols-3 lg:grid-cols-12 gap-6">
                                 {state.availableUids.map((uids) => {
                                     return <LoginIdFragment uid={uids} key={uids} />;
                                 })}
