@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import react, { useEffect, useState } from 'react';
+import react, { useEffect, useState, useCallback } from 'react';
 import { useAppState, useActions, useEffects, useReaction } from '../overmind';
 import React, { lazy, Suspense } from 'react';
 import { Analytics, logEvent } from 'firebase/analytics';
@@ -11,6 +11,11 @@ const PuzzleQuestionImageComponent = (props) => {
     const actions = useActions();
     const state = useAppState();
     const [hidden, setHidden] = useState(false);
+    const [loaded, setLoaded] = useState(false);
+    const onLoad = useCallback(() => {
+        setLoaded(true);
+    }, []);
+
     return (
         !hidden && (
             <div
@@ -21,13 +26,18 @@ const PuzzleQuestionImageComponent = (props) => {
                     src={fullPath}
                     loading="lazy"
                     alt="No Image"
+                    onLoad={onLoad}
                     onError={() => {
                         actions.setQuestionImagesNumSeq(state.numSeqs - 1);
                         setHidden(true);
                     }}
                     className="w-36 h-40 rounded-xl items-center text-center"
                 />
-
+                {!loaded && (
+                    <>
+                        <Loading />
+                    </>
+                )}
                 <p className="p-2 text-xl font-semibold tracking-tight">{props.seqName}</p>
             </div>
         )
@@ -37,7 +47,7 @@ const PuzzleQuestionImageComponent = (props) => {
 const Loading = () => {
     return (
         <>
-            <div role="status" class="text-center items-center justify-center px-2 py-2">
+            <div role="status" class="text-center items-center justify-center px-14 py-10">
                 <svg
                     aria-hidden="true"
                     class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -72,22 +82,13 @@ const Loading = () => {
     );
 };
 
-const Image = (props) => {
-    return (
-        <img
-            src={props.fullPath}
-            loading="lazy"
-            alt="No Image"
-            onError={(e) => {
-                console.log(e);
-            }}
-            className="w-36 h-40 rounded-xl items-center text-center"
-        />
-    );
-};
 const PuzzleOptionsImageComponent = (props) => {
     const optionsId = `data-${props.id}_${props.optionName}`;
     const fullPath = `/generated/${props.folder}/${props.path}.png`;
+    const [loaded, setLoaded] = useState(false);
+    const onLoad = useCallback(() => {
+        setLoaded(true);
+    }, []);
 
     return (
         <div>
@@ -116,9 +117,21 @@ const PuzzleOptionsImageComponent = (props) => {
                     peer-checked:text-red-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
             >
                 <div>
-                    <Suspense fallback={<Loading />}>
-                        <Image fullPath={fullPath} />
-                    </Suspense>
+                    <img
+                        src={fullPath}
+                        loading="lazy"
+                        alt="No Image"
+                        onLoad={onLoad}
+                        onError={(e) => {
+                            console.log(e);
+                        }}
+                        className="w-36 h-40 rounded-xl items-center text-center"
+                    />
+                    {!loaded && (
+                        <>
+                            <Loading />
+                        </>
+                    )}
                     <span className="mt-2 mb-2 font-semibold text-xl">{props.optionName}</span>
                 </div>
             </label>

@@ -361,7 +361,6 @@ const LoginIdFragment = (props) => {
     useEffect(() => {
         (async () => {
             const hasBeenUsed = await effects.getUIDusageStatus(props.uid);
-            console.log(hasBeenUsed);
             if (hasBeenUsed == true) setIsUsed(true);
         })();
     }, []);
