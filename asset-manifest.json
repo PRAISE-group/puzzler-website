@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/puzzler-ai/static/css/main.20bf84a0.css",
-    "main.js": "/puzzler-ai/static/js/main.51a9aac7.js",
-    "index.html": "/puzzler-ai/index.html",
-    "main.20bf84a0.css.map": "/puzzler-ai/static/css/main.20bf84a0.css.map",
-    "main.51a9aac7.js.map": "/puzzler-ai/static/js/main.51a9aac7.js.map"
+    "main.css": "/puzzler-website/static/css/main.20bf84a0.css",
+    "main.js": "/puzzler-website/static/js/main.8698c42c.js",
+    "index.html": "/puzzler-website/index.html",
+    "main.20bf84a0.css.map": "/puzzler-website/static/css/main.20bf84a0.css.map",
+    "main.8698c42c.js.map": "/puzzler-website/static/js/main.8698c42c.js.map"
   },
   "entrypoints": [
     "static/css/main.20bf84a0.css",
-    "static/js/main.51a9aac7.js"
+    "static/js/main.8698c42c.js"
   ]
 }
