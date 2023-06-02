@@ -15,6 +15,7 @@ import { db, analytics } from './firebase/firebase.js';
 import { createOvermind } from 'overmind';
 import { Provider } from 'overmind-react';
 import { config } from './overmind';
+import Responses from './pages/ResponsesPage';
 
 export const overmind = createOvermind(config, {
     devtools: false,
@@ -27,6 +28,7 @@ export default function Application() {
                 <Route path="*" element={<App />} />
                 <Route path="/" element={<App />} />
                 <Route path="/puzzles" element={<PuzzlesPage />} />
+                <Route path="/responses" element={<Responses />} />
             </Routes>
             <div className="py-16"></div>
         </Router>

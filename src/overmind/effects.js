@@ -110,3 +110,24 @@ export const getPuzzleSubmissionData = async (loginId, puzzleId) => {
         console.table(e);
     }
 };
+
+export const getPuzzleSubmissionDataLogin = async (loginId) => {
+    try {
+        const q = query(
+            collectionGroup(db, 'submissions'),
+            where('loginId', '==', JSON.stringify(loginId))
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            var data = [];
+            querySnapshot.docs.map(async (t) => {
+                data.push(t.data());
+            });
+            return data;
+        } else {
+            return null;
+        }
+    } catch (e) {
+        console.table(e);
+    }
+};
