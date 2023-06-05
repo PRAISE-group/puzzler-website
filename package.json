@@ -1,7 +1,7 @@
 {
     "name": "puzzler-website",
     "homepage": "https://praise-group.github.io/puzzler-website/",
-    "version": "0.1.0",
+    "version": "1.1.0",
     "private": false,
     "dependencies": {
         "@heroicons/react": "^2.0.18",

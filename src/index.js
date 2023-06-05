@@ -16,6 +16,7 @@ import { createOvermind } from 'overmind';
 import { Provider } from 'overmind-react';
 import { config } from './overmind';
 import Responses from './pages/ResponsesPage';
+import FooterComponent from './components/FooterComponent';
 
 export const overmind = createOvermind(config, {
     devtools: false,
@@ -30,6 +31,7 @@ export default function Application() {
                 <Route path="/puzzles" element={<PuzzlesPage />} />
                 {/* <Route path="/responses" element={<Responses />} /> */}
             </Routes>
+            <FooterComponent />
             <div className="py-16"></div>
         </Router>
     );
