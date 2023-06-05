@@ -10,7 +10,7 @@ import {
     collectionGroup,
 } from 'firebase/firestore';
 
-export const submitPuzzleData = async (loginId, puzzleId, rating, option) => {
+export const submitPuzzleData = async (loginId, puzzleId, rating, option, noneThese) => {
     try {
         await updateDoc(doc(db, `puzzlerUserData/${loginId}/submissions`, puzzleId), {
             loginId: loginId,
@@ -19,6 +19,7 @@ export const submitPuzzleData = async (loginId, puzzleId, rating, option) => {
             setOption: true,
             submitted: true,
             attempted: true,
+            reason_none_these: noneThese,
             rating: rating,
             option: option,
             submit_time: serverTimestamp(),

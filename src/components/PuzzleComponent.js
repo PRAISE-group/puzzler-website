@@ -212,16 +212,31 @@ const PuzzleComponent = (props) => {
 
     const [rating, setRating] = useState(0);
     const [optionName, setOptionName] = useState('');
+    const [noneOfThese, setNoneOfThese] = useState(false);
+    const [textNoneThese, settextNoneThese] = useState('None of these not choosen');
 
     const effects = useEffects();
 
+    function handleNoneThese(event) {
+        if (event.target.checked)
+            setNoneOfThese(true);
+    }
+
     async function handleSubmit(event, loginId, puzzleId, option, rating) {
         event.preventDefault();
-        if (option === '' || rating === 0) {
-            alert('Please choose option and rating!');
+        if ((noneOfThese === false && option === '') || rating === 0) {
+            alert('Please choose option and rating! \
+                You must choose none of these checkbox if none of the options match.');
             return;
         }
-        await effects.submitPuzzleData(loginId, puzzleId, rating, option);
+
+        if (noneOfThese === true) {
+            option = "none-of-these-tag"
+        }
+
+        alert(option);
+
+        await effects.submitPuzzleData(loginId, puzzleId, rating, option, textNoneThese);
         navigate('/', { replace: true });
     }
 
@@ -389,6 +404,24 @@ const PuzzleComponent = (props) => {
                         <span class="bg-yellow-100 text-yellow-800 text-md font-semibold px-2 py-0.5 rounded ml-4">
                             {rating} out of 4
                         </span>
+                    </div>
+                </div>
+                <div class="mx-auto text-center flex items-center justify-center mb-4">
+                    <input id="default-checkbox" type="checkbox" value="" 
+                        class="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 
+                        rounded focus:ring-blue-500 dark:focus:ring-blue-600 
+                        dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
+                        onChange={(e) => handleNoneThese(e)}/>
+                    <label for="default-checkbox" class="ml-2 text-md 
+                        font-medium text-gray-900 dark:text-gray-300">None of these</label>
+                    <div className='px-2 '>
+                        <input type="text" id="none_these" class="bg-gray-50 
+                            border border-gray-300 text-gray-900 text-sm rounded-lg 
+                            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
+                            dark:bg-gray-700 dark:border-gray-600 
+                            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
+                            dark:focus:border-blue-500" placeholder="Why you choose this?" 
+                            onChange={(e) => {settextNoneThese(e.target.value)}}/>
                     </div>
                 </div>
                 <div class="flex flex-row items-center justify-between">
