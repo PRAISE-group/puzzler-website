@@ -11,6 +11,14 @@ import { Analytics, logEvent } from 'firebase/analytics';
 import { db, analytics } from '../firebase/firebase.js';
 
 const PuzzlesPage = () => {
+    useEffect(() => {
+        logEvent(analytics, 'visit_page:puzzlesPage');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'App.js',
+        });
+    }, []);
+
     // General
     const state = useAppState();
     const actions = useActions();

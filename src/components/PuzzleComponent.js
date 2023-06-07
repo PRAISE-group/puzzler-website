@@ -84,6 +84,14 @@ const Loading = () => {
 };
 
 const PuzzleOptionsImageComponent = (props) => {
+    useEffect(() => {
+        logEvent(analytics, 'visit_section:response');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'Puzzle.js',
+        });
+    }, []);
+
     const optionsId = `data-${props.id}_${props.optionName}`;
     const fullPath = `./generated/${props.folder}/${props.path}.png`;
     const [loaded, setLoaded] = useState(false);
@@ -195,6 +203,14 @@ const StarFragment = (props) => {
     );
 };
 const PuzzleComponent = (props) => {
+    useEffect(() => {
+        logEvent(analytics, 'visit_section:puzzle_question');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'Puzzle.js',
+        });
+    }, []);
+
     const state = useAppState();
     const actions = useActions();
     const reaction = useReaction();
@@ -218,25 +234,33 @@ const PuzzleComponent = (props) => {
     const effects = useEffects();
 
     function handleNoneThese(event) {
-        if (event.target.checked)
-            setNoneOfThese(true);
+        if (event.target.checked) setNoneOfThese(true);
     }
 
     async function handleSubmit(event, loginId, puzzleId, option, rating) {
         event.preventDefault();
         if ((noneOfThese === false && option === '') || rating === 0) {
-            alert('Please choose option and rating! \
-                You must choose none of these checkbox if none of the options match.');
+            alert(
+                'Please choose option and rating! \
+                You must choose none of these checkbox if none of the options match.'
+            );
             return;
         }
 
         if (noneOfThese === true) {
-            option = "none-of-these-tag"
+            option = 'none-of-these-tag';
         }
 
         alert(option);
 
         await effects.submitPuzzleData(loginId, puzzleId, rating, option, textNoneThese);
+
+        logEvent(analytics, 'response_on_page');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'Puzzle.js',
+        });
+
         navigate('/', { replace: true });
     }
 
@@ -407,21 +431,37 @@ const PuzzleComponent = (props) => {
                     </div>
                 </div>
                 <div class="mx-auto text-center flex items-center justify-center mb-4">
-                    <input id="default-checkbox" type="checkbox" value="" 
+                    <input
+                        id="default-checkbox"
+                        type="checkbox"
+                        value=""
                         class="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 
                         rounded focus:ring-blue-500 dark:focus:ring-blue-600 
-                        dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" 
-                        onChange={(e) => handleNoneThese(e)}/>
-                    <label for="default-checkbox" class="ml-2 text-md 
-                        font-medium text-gray-900 dark:text-gray-300">None of these</label>
-                    <div className='px-2 '>
-                        <input type="text" id="none_these" class="bg-gray-50 
+                        dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onChange={(e) => handleNoneThese(e)}
+                    />
+                    <label
+                        for="default-checkbox"
+                        class="ml-2 text-md 
+                        font-medium text-gray-900 dark:text-gray-300"
+                    >
+                        None of these
+                    </label>
+                    <div className="px-2 ">
+                        <input
+                            type="text"
+                            id="none_these"
+                            class="bg-gray-50 
                             border border-gray-300 text-gray-900 text-sm rounded-lg 
                             focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
                             dark:bg-gray-700 dark:border-gray-600 
                             dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 
-                            dark:focus:border-blue-500" placeholder="Why you choose this?" 
-                            onChange={(e) => {settextNoneThese(e.target.value)}}/>
+                            dark:focus:border-blue-500"
+                            placeholder="Why you choose this?"
+                            onChange={(e) => {
+                                settextNoneThese(e.target.value);
+                            }}
+                        />
                     </div>
                 </div>
                 <div class="flex flex-row items-center justify-between">

@@ -14,6 +14,14 @@ const PuzzleWidget = (props) => {
     const reaction = useReaction();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        logEvent(analytics, 'visit_section:puzzleId');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'App.js',
+        });
+    }, []);
+
     async function handleNavigateToPuzzle(event, puzzleId) {
         setSpinner(true);
         setPuzzleClass(
@@ -129,6 +137,14 @@ const PuzzleWidget = (props) => {
     );
 };
 const App = () => {
+    useEffect(() => {
+        logEvent(analytics, 'visit_page:app');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'App.js',
+        });
+    }, []);
+
     // General
     const state = useAppState();
     const actions = useActions();

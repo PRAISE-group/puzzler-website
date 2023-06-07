@@ -23,6 +23,14 @@ export const overmind = createOvermind(config, {
 });
 
 export default function Application() {
+    useEffect(() => {
+        logEvent(analytics, 'visit_page:first_page');
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: 'screen_base',
+            firebase_screen_class: 'App.js',
+        });
+    }, []);
+
     return (
         <Router>
             <Routes>
