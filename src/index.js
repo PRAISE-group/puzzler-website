@@ -29,7 +29,7 @@ export default function Application() {
                 <Route path="*" element={<App />} />
                 <Route path="/" element={<App />} />
                 <Route path="/puzzles" element={<PuzzlesPage />} />
-                {/* <Route path="/responses" element={<Responses />} /> */}
+                {/* <Route path="/submissions" element={<Responses />} /> */}
             </Routes>
             <FooterComponent />
             <div className="py-16"></div>

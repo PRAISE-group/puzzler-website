@@ -52,7 +52,7 @@ const Responses = () => {
         (async () => {
             setResponses(
                 await Promise.all(
-                    state.availableUids.map(async (x) => {
+                    state.allGeneratedUids.map(async (x) => {
                         return await effects.getPuzzleSubmissionDataLogin(x);
                     })
                 )
@@ -87,6 +87,9 @@ const Responses = () => {
                             <th scope="col" class="px-6 py-3 text-center">
                                 Time Started
                             </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Last Submitted
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,9 +122,18 @@ const Responses = () => {
                                                         {JSON.stringify(x.submitted)}
                                                     </td>
                                                     <td class="px-2 py-2 text-center">
-                                                        {JSON.stringify(
-                                                            x.attempt_start_time.toDate().toString()
-                                                        )}
+                                                        {x.attempt_start_time != null &&
+                                                            JSON.stringify(
+                                                                x.attempt_start_time
+                                                                    .toDate()
+                                                                    .toString()
+                                                            )}
+                                                    </td>
+                                                    <td class="px-2 py-2 text-center">
+                                                        {x.submit_time != null &&
+                                                            JSON.stringify(
+                                                                x.submit_time.toDate().toString()
+                                                            )}
                                                     </td>
                                                 </tr>
                                             );
